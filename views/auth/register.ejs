@@ -1,0 +1,150 @@
+<%- include('../partials/header', { title: 'Register' }) %>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <i class="fas fa-user-plus fa-3x text-success mb-3"></i>
+            <h3>Register</h3>
+            <p class="text-muted">Create your account</p>
+          </div>
+
+          <form action="/auth/register" method="POST" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+                <div class="invalid-feedback">
+                  Please provide your full name.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <div class="invalid-feedback">
+                  Please provide a valid email address.
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                <div class="invalid-feedback">
+                  Password must be at least 6 characters long.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" id="role" name="role" required onchange="toggleRoleFields()">
+                  <option value="">Select Role</option>
+                  <option value="student">Student</option>
+                  <option value="professor">Professor</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a role.
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="department" class="form-label">Department</label>
+              <select class="form-select" id="department" name="department" required>
+                <option value="">Select Department</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Mechanical">Mechanical</option>
+                <option value="Civil">Civil</option>
+                <option value="Chemical">Chemical</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Physics">Physics</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a department.
+              </div>
+            </div>
+
+            <!-- Student-specific fields -->
+            <div id="studentFields" style="display: none;">
+              <div class="mb-3">
+                <label for="studentId" class="form-label">Student ID</label>
+                <input type="text" class="form-control" id="studentId" name="studentId">
+                <div class="invalid-feedback">
+                  Please provide your student ID.
+                </div>
+              </div>
+            </div>
+
+            <!-- Professor-specific fields -->
+            <div id="professorFields" style="display: none;">
+              <div class="mb-3">
+                <label for="employeeId" class="form-label">Employee ID</label>
+                <input type="text" class="form-control" id="employeeId" name="employeeId">
+                <div class="invalid-feedback">
+                  Please provide your employee ID.
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success btn-lg">
+                <i class="fas fa-user-plus me-2"></i>Register
+              </button>
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <p>Already have an account? <a href="/auth/login">Login here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleRoleFields() {
+  const role = document.getElementById('role').value;
+  const studentFields = document.getElementById('studentFields');
+  const professorFields = document.getElementById('professorFields');
+  const studentId = document.getElementById('studentId');
+  const employeeId = document.getElementById('employeeId');
+
+  // Hide all fields first
+  studentFields.style.display = 'none';
+  professorFields.style.display = 'none';
+  studentId.required = false;
+  employeeId.required = false;
+
+  // Show relevant fields
+  if (role === 'student') {
+    studentFields.style.display = 'block';
+    studentId.required = true;
+  } else if (role === 'professor') {
+    professorFields.style.display = 'block';
+    employeeId.required = true;
+  }
+}
+
+// Bootstrap form validation
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+<%- include('../partials/footer') %>

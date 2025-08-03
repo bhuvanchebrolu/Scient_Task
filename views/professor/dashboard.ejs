@@ -1,0 +1,95 @@
+<%- include('../partials/header', { title: 'Professor Dashboard' }) %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-chalkboard-teacher me-2"></i>Professor Dashboard</h2>
+        <small class="text-muted">Welcome, <%= user.name %></small>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="row g-4 mb-5">
+        <div class="col-md-4">
+          <div class="card border-primary">
+            <div class="card-body text-center">
+              <i class="fas fa-plus-circle fa-3x text-primary mb-3"></i>
+              <h5>Create New Project</h5>
+              <p class="text-muted">Start a new academic project</p>
+              <a href="/professor/projects/new" class="btn btn-primary">Create Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-success">
+            <div class="card-body text-center">
+              <i class="fas fa-project-diagram fa-3x text-success mb-3"></i>
+              <h5>My Projects</h5>
+              <p class="text-muted">Manage your projects</p>
+              <a href="/professor/projects" class="btn btn-success">View Projects</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-info">
+            <div class="card-body text-center">
+              <i class="fas fa-users fa-3x text-info mb-3"></i>
+              <h5>Manage Students</h5>
+              <p class="text-muted">Add students to projects</p>
+              <a href="/professor/students" class="btn btn-info">Manage Students</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Projects -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">My Projects (<%= projects.length %>)</h5>
+        </div>
+        <div class="card-body">
+          <% if (projects.length === 0) { %>
+            <div class="text-center py-5">
+              <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+              <h5 class="text-muted">No projects yet</h5>
+              <p class="text-muted">Create your first project to get started</p>
+              <a href="/professor/projects/new" class="btn btn-primary">Create Project</a>
+            </div>
+          <% } else { %>
+            <div class="row g-4">
+              <% projects.forEach(project => { %>
+                <div class="col-md-6 col-lg-4">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 class="card-title"><%= project.title %></h6>
+                        <span class="badge bg-<%= project.status === 'active' ? 'success' : project.status === 'completed' ? 'primary' : 'warning' %>">
+                          <%= project.status %>
+                        </span>
+                      </div>
+                      <p class="card-text text-muted small">
+                        <%= project.description.substring(0, 100) %>...
+                      </p>
+                      <div class="mb-2">
+                        <small class="text-muted">
+                          <i class="fas fa-users me-1"></i>
+                          <%= project.students.length %> students
+                        </small>
+                      </div>
+                      <div class="d-flex gap-2">
+                        <a href="/projects/<%= project._id %>" class="btn btn-sm btn-outline-primary">View</a>
+                        <a href="/professor/projects/<%= project._id %>/edit" class="btn btn-sm btn-outline-success">Edit</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

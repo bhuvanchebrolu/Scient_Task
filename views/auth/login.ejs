@@ -1,0 +1,73 @@
+<%- include('../partials/header', { title: 'Login' }) %>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
+            <h3>Login</h3>
+            <p class="text-muted">Sign in to your account</p>
+          </div>
+
+          <form action="/auth/login" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+              <div class="invalid-feedback">
+                Please provide a valid email address.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required minlength="6">
+              <div class="invalid-feedback">
+                Password must be at least 6 characters long.
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+              </button>
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <p>Don't have an account? <a href="/auth/register">Register here</a></p>
+          </div>
+
+          <!-- Test Admin Credentials -->
+          <div class="alert alert-info mt-4">
+            <strong>Test Admin Login:</strong><br>
+            Email: admin@example.com<br>
+            Password: admin123
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Bootstrap form validation
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+<%- include('../partials/footer') %>

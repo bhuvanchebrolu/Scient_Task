@@ -1,0 +1,133 @@
+<%- include('../partials/header', { title: 'Manage Students' }) %>
+
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-users me-2"></i>Manage Students</h2>
+  </div>
+
+  <% if (students.length === 0) { %>
+    <div class="text-center py-5">
+      <i class="fas fa-user-graduate fa-4x text-muted mb-4"></i>
+      <h4 class="text-muted">No students found</h4>
+      <p class="text-muted">Students will appear here once they register</p>
+    </div>
+  <% } else { %>
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-list me-2"></i>All Students</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Registration Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% students.forEach(student => { %>
+                <tr>
+                  <td>
+                    <span class="badge bg-primary"><%= student.studentId || 'N/A' %></span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center me-2">
+                        <i class="fas fa-user text-muted"></i>
+                      </div>
+                      <strong><%= student.name %></strong>
+                    </div>
+                  </td>
+                  <td><%= student.email %></td>
+                  <td>
+                    <span class="badge bg-light text-dark">
+                      <%= student.department || 'Not specified' %>
+                    </span>
+                  </td>
+                  <td>
+                    <small class="text-muted">
+                      <i class="fas fa-calendar me-1"></i>
+                      <%= new Date(student.createdAt).toLocaleDateString() %>
+                    </small>
+                  </td>
+                  <td>
+                    <div class="btn-group btn-group-sm">
+                      <button type="button" class="btn btn-outline-primary" 
+                              onclick="viewStudentProjects('<%= student._id %>', '<%= student.name %>')">
+                        <i class="fas fa-eye me-1"></i>View Projects
+                      </button>
+                      <button type="button" class="btn btn-outline-success"
+                              >
+                        <i class="fas fa-envelope me-1"></i>Contact
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<!-- Student Projects Modal -->
+<div class="modal fade" id="studentProjectsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-project-diagram me-2"></i>
+          <span id="studentName">Student</span> Projects
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="studentProjectsList">
+          <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function viewStudentProjects(studentId, studentName) {
+  document.getElementById('studentName').textContent = studentName;
+  const modal = new bootstrap.Modal(document.getElementById('studentProjectsModal'));
+  modal.show();
+  
+  //Implement AJAX call here to fetch student's projects--->incomplete
+ 
+  setTimeout(() => {
+    document.getElementById('studentProjectsList').innerHTML = `
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>
+        Student project details
+        <br><small>Student ID: ${studentId}</small>
+      </div>
+    `;
+  }, 1000);
+}
+
+</script>
+
+<style>
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+</style>
+
+<%- include('../partials/footer') %>

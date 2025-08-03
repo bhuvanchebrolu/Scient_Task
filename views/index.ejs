@@ -1,0 +1,52 @@
+<%- include('partials/header', { title: title }) %>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="text-center mb-5">
+        <h1 class="display-4">
+          <i class="fas fa-graduation-cap text-primary"></i>
+          Academic Project System
+        </h1>
+        <p class="lead">Manage and collaborate on academic projects efficiently</p>
+      </div>
+
+      <% if (!currentUser) { %>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-user-graduate fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Students</h5>
+                <p class="card-text">View and participate in academic projects</p>
+                <a href="/auth/register" class="btn btn-primary">Register as Student</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-chalkboard-teacher fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Professors</h5>
+                <p class="card-text">Create and manage academic projects</p>
+                <a href="/auth/register" class="btn btn-success">Register as Professor</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center mt-4">
+          <p>Already have an account? <a href="/auth/login">Login here</a></p>
+        </div>
+      <% } else { %>
+        <div class="text-center">
+          <h2>Welcome, <%= currentUser.name %>!</h2>
+          <p class="lead">Role: <%= currentUser.role.toUpperCase() %></p>
+          <a href="/auth/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

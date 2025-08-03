@@ -1,0 +1,69 @@
+<%- include('../partials/header', { title: 'All Projects' }) %>
+
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-project-diagram me-2"></i>All Projects</h2>
+  </div>
+
+  <% if (projects.length === 0) { %>
+    <div class="text-center py-5">
+      <i class="fas fa-folder-open fa-4x text-muted mb-4"></i>
+      <h4 class="text-muted">No projects available</h4>
+      <p class="text-muted">Check back later for new projects</p>
+    </div>
+  <% } else { %>
+    <div class="row g-4">
+      <% projects.forEach(project => { %>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <h5 class="card-title"><%= project.title %></h5>
+                <span class="badge bg-<%= project.status === 'active' ? 'success' : project.status === 'completed' ? 'primary' : 'warning' %>">
+                  <%= project.status %>
+                </span>
+              </div>
+              
+              <p class="card-text text-muted">
+                <%= project.description.substring(0, 150) %>...
+              </p>
+              
+              <div class="mb-3">
+                <small class="text-muted">
+                  <i class="fas fa-user me-1"></i><%= project.professor.name %>
+                </small>
+                <br>
+                <small class="text-muted">
+                  <i class="fas fa-building me-1"></i><%= project.department %>
+                </small>
+                <br>
+                <small class="text-muted">
+                  <i class="fas fa-users me-1"></i><%= project.students.length %> students
+                </small>
+              </div>
+
+              <% if (project.technologies && project.technologies.length > 0) { %>
+                <div class="mb-3">
+                  <% project.technologies.slice(0, 3).forEach(tech => { %>
+                    <span class="badge bg-light text-dark me-1"><%= tech %></span>
+                  <% }) %>
+                  <% if (project.technologies.length > 3) { %>
+                    <span class="badge bg-light text-dark">+<%= project.technologies.length - 3 %> more</span>
+                  <% } %>
+                </div>
+              <% } %>
+            </div>
+            
+            <div class="card-footer bg-transparent">
+              <a href="/projects/<%= project._id %>" class="btn btn-primary btn-sm w-100">
+                <i class="fas fa-eye me-1"></i>View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
